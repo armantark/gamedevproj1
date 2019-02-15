@@ -20,7 +20,8 @@ public class Enemy : MonoBehaviour
     public float explosionDamage;
     public float explosionRadius;
     public GameObject explosionObj;
-
+    public float slowAmount;
+    public float time;
     #endregion
     #region health_variables
     public float maxHealth;
@@ -69,6 +70,7 @@ public class Enemy : MonoBehaviour
             {
                 //cause damage
                 hit.transform.GetComponent<PlayerController>().TakeDamage(explosionDamage);
+                hit.transform.GetComponent<PlayerController>().Speed(-slowAmount, time);
                 Debug.Log("Hit Player with explosion");
                 Instantiate(explosionObj, transform.position, transform.rotation);
             }

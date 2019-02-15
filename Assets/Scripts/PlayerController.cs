@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float movespeed;
     float x_input;
     float y_input;
+    float boost_timer;
+    float originalms;
     #endregion
 
     #region attack_variables
@@ -47,6 +49,10 @@ public class PlayerController : MonoBehaviour
         currHealth = maxHealth;
 
         hpSlider.value = currHealth / maxHealth;
+
+        boost_timer = 0;
+
+        originalms = movespeed;
     }
 
     //Called every frame
@@ -73,6 +79,17 @@ public class PlayerController : MonoBehaviour
         {
             Interact();
         }
+        if (boost_timer < 0) {
+            boost_timer = 0;
+            movespeed = originalms;
+            Debug.Log("Out of boost");
+
+        }
+        else if (boost_timer > 0)
+        {
+            boost_timer -= Time.deltaTime;
+        }
+
     }
     #endregion
 
@@ -110,6 +127,13 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("DirX", currDirection.x);
         anim.SetFloat("DirY", currDirection.y);
 
+    }
+
+    public void Speed(float value, float time)
+    {
+        movespeed = originalms + value;
+        boost_timer = time;
+        Debug.Log("Speed is now " + movespeed.ToString());
     }
     #endregion
 
